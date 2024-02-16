@@ -1,0 +1,33 @@
+# Custom Error Pages;
+# 404 Page;
+ErrorDocument 404 /page-404.php
+
+# 500 Page
+ErrorDocument 500 /page-500.php
+
+# 503 Page
+ErrorDocument 503 /page-503.php
+
+# 505 Page
+ErrorDocument 505 /page-505.php
+
+# mod_rewrite starts here
+
+RewriteEngine on
+
+# does not apply to existing directories, meaning that if the folder exists on the server then don't change anything and don't run the rule!
+
+RewriteCond %{REQUEST_FILENAME} !-directories
+
+#Check for file directory with .html or .php extension
+RewriteCond %{REQUEST_FILENAME}\.html -f
+
+# Here we actually show the page that has the .html extension
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+#Set Session Timeout;
+<IfModule mod_php5.c>
+    #Session timeout
+    php_value session.cookie_lifetime 0
+    php_value session.gc_maxlifetime 0
+</IfModule>
